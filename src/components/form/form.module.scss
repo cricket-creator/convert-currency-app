@@ -1,0 +1,56 @@
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+
+    &__wrap {
+        display: flex;
+        justify-content: center;
+        max-width: 100%;
+        gap: 20px;
+    }
+
+    &__item {
+        display: flex;
+        flex-direction: column;
+        width: 80%;
+        gap: inherit;
+        border: 1px solid rgba(0, 0, 0, .20);
+        border-radius: 4px;
+        padding: 20px;
+    }
+
+    &__input {
+        display: flex;
+        align-items: center;
+
+        & > * {
+            font-weight: 600 !important;
+        }
+    }
+
+    &__output {
+        display: flex;
+        width: 100%;
+        padding: 18px 16.5px;
+        border: 1px solid rgba(0, 0, 0, .20);
+        border-radius: 4px;
+    }
+
+    &__currency {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 50px;
+        height: 50px;
+    }
+
+    &__btn {
+        display: flex;
+        justify-content: center;
+        padding: 20px 10px;
+        align-self: center;
+        width: 500px;
+        border: 1px solid rgba(0, 0, 0, .20) !important;
+    }
+}

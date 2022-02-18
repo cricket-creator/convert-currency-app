@@ -3,7 +3,9 @@ import { FormPage } from "./layout/FormPage";
 
 function App() {
   return (
-    <FormPage />
+    <div className="container">
+      <FormPage />
+    </div>
   );
 }
 
