@@ -10,6 +10,7 @@ interface IFormItemProps<T> {
   onInput?: (event: React.ChangeEvent<HTMLInputElement>) => void;
   exactCurrency: number;
   convertType: string;
+  resultingForm: boolean;
   options: T[];
   onRender: (item: T, idx: number) => React.ReactNode;
 }
@@ -20,7 +21,7 @@ export function FormItem<T>(props: IFormItemProps<T>) {
       <h3 className={style.item__title}>{props.title}</h3>
       <FormControl sx={{ minWidth: 120 }}>
         <Select
-          name={!!props.onInput ? "type" : "convertType"}
+          name={props.resultingForm ? "convertType" : "type"}
           value={props.form.type}
           onChange={props.onSelect}
         >
@@ -29,17 +30,18 @@ export function FormItem<T>(props: IFormItemProps<T>) {
       </FormControl>
       <div className={style.item__input}>
         {
-          !!props.onInput ?
-            <TextField
-              fullWidth
-              type="number"
-              value={props.form.value}
-              variant="outlined"
-              onChange={props.onInput}
-            /> :
-            <div className={style.item__output}>
-              {props.form.value}
-            </div>
+          /*!!props.onInput ?*/
+          <TextField
+            fullWidth
+            name={props.resultingForm ? "convertType" : "type"}
+            type="number"
+            value={props.form.value}
+            variant="outlined"
+            onChange={props.onInput}
+          />
+          /*<div className={style.item__output}>
+            {props.form.value}
+          </div>*/
         }
         <div className={style.item__currency}>{props.form.type}</div>
       </div>
@@ -47,7 +49,7 @@ export function FormItem<T>(props: IFormItemProps<T>) {
         !!(props.convertType && props.form.type) &&
         <div className={style.item__compare}>
           {
-            !!props.onInput ?
+            props.resultingForm ?
               `1 ${props.form.type} = ${props.exactCurrency.toFixed(4)} ${props.convertType}`
               :
               `1 ${props.form.type} = ${(1 / props.exactCurrency).toFixed(4)} ${props.form.type}`

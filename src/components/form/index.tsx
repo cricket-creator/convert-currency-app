@@ -39,11 +39,10 @@ export function Form<T>({ options, onRender }: IFormProps<T>) {
   const handleSelectChange = useCallback((event: SelectChangeEvent): void => {
     if (event.target.name === CurrencyType.convert) {
       setToConvert(prev => ({ ...prev, type: event.target.value }));
-      return;
+    } else {
+      setForm(prev => ({ ...prev, [event.target.name as keyof ICurrency]: event.target.value }));
+      dispatch(formGetCurrencies(event.target.value));
     }
-
-    setForm(prev => ({ ...prev, [event.target.name as keyof ICurrency]: event.target.value }));
-    dispatch(formGetCurrencies(event.target.value));
   }, [dispatch]);
 
   const handleInputChange = useCallback((event: React.ChangeEvent<HTMLInputElement>): void => {
@@ -80,12 +79,13 @@ export function Form<T>({ options, onRender }: IFormProps<T>) {
     <form className={style.form}>
       <div className={style.form__wrap}>
         <FormItem
-          title={'У меня есть'}
+          title={"У меня есть"}
           form={form}
           onSelect={handleSelectChange}
           onInput={handleInputChange}
           exactCurrency={exactCurrency}
           convertType={toConvert.type}
+          resultingForm={false}
           options={options}
           onRender={onRender}
         />
@@ -101,11 +101,13 @@ export function Form<T>({ options, onRender }: IFormProps<T>) {
         </div>
 
         <FormItem
-          title={'Я получу'}
+          title={"Я получу"}
           form={toConvert}
           onSelect={handleSelectChange}
+          onInput={handleInputChange}
           exactCurrency={exactCurrency}
           convertType={form.type}
+          resultingForm={true}
           options={options}
           onRender={onRender}
         />
