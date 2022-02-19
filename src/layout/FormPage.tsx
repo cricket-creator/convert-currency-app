@@ -4,10 +4,11 @@ import { MenuItem } from "@mui/material";
 import { formGetCurrencies } from "../store/form/action";
 import { Form } from "../components/form";
 import { IFormReducer } from "../utils/interfaces";
-import { selectCurrenciesList } from "../store/form/selectors";
+import { selectBaseCurrencyType, selectCurrenciesList } from "../store/form/selectors";
 
 export function FormPage() {
   const currenciesList = useSelector<IFormReducer, string[]>(selectCurrenciesList);
+  const baseCurrencyType = useSelector<IFormReducer, string>(selectBaseCurrencyType);
   const dispatch = useDispatch();
 
   const renderOptions = useCallback((item: string, idx: number): React.ReactNode => {
@@ -15,7 +16,7 @@ export function FormPage() {
   }, []);
 
   useEffect(() => {
-    dispatch(formGetCurrencies("RUB"));
+    dispatch(formGetCurrencies(baseCurrencyType));
   }, [dispatch]);
 
   return (

@@ -11,9 +11,7 @@ type persistConfigType = {
 }
 
 const persistConfig: persistConfigType = {
-  key: "convert-app",
-  blacklist: [],
-  storage,
+  key: "convert-app", blacklist: [], storage,
 };
 
 const composedEnhancers = composeWithDevTools(applyMiddleware(thunk));
@@ -22,7 +20,7 @@ const persistedReducer = persistReducer(persistConfig, formReducer);
 
 export const store = createStore(
   persistedReducer,
-  composedEnhancers
+  composedEnhancers,
 );
 
 export const persistor: Persistor = persistStore(store);
