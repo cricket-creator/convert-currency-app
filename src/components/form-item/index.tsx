@@ -29,16 +29,14 @@ export function FormItem<T>(props: IFormItemProps<T>) {
         </Select>
       </FormControl>
       <div className={style.item__input}>
-        {
-          <TextField
-            fullWidth
-            name={props.resultingForm ? "convertType" : "type"}
-            type="number"
-            value={props.form.value}
-            variant="outlined"
-            onChange={props.onInput}
-          />
-        }
+        <TextField
+          fullWidth
+          name={props.resultingForm ? "convertType" : "type"}
+          type="number"
+          value={props.form.value}
+          variant="outlined"
+          onChange={props.onInput}
+        />
         <div className={style.item__currency}>{props.form.type}</div>
       </div>
       {
