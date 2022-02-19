@@ -45,7 +45,7 @@
         }
 
         &__swap {
-            height: $swapHeight / 2;
+            height: calc(#{$swapHeight} / 2);
         }
     }
 }
