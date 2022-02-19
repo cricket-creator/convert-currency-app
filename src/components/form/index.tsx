@@ -13,7 +13,7 @@ import {
   selectBaseCurrency,
   selectCurrencies
 } from "../../store/form/selectors";
-import { formGetValutes } from "../../store/form/action";
+import { formGetCurrencies } from "../../store/form/action";
 import style from "./form.module.scss";
 
 interface IFormProps<T> {
@@ -26,48 +26,50 @@ export function Form<T>({ options, onRender }: IFormProps<T>) {
   const currencies = useSelector<IFormReducer, ICurrencies>(selectCurrencies);
   const dispatch = useDispatch();
   const [form, setForm] = useState<IBaseCurrency>({
-    type: "",
-    value: 1
+    type: "", value: 1
   });
   const [toConvert, setToConvert] = useState<IBaseCurrency>({
-    type: "",
-    value: 0
+    type: "", value: 0
   });
 
-  const exactCurrency = useMemo((): number | undefined => {
+  const exactCurrency = useMemo((): number => {
+    let currencyValue: number = 0;
+
     for (const key in currencies) {
       if (key === toConvert.type) {
-        return currencies[key];
+        currencyValue = +currencies[key];
       }
     }
+    return currencyValue;
   }, [currencies, toConvert.type]);
 
   const handleSelectChange = (event: SelectChangeEvent): void => {
-    event.preventDefault();
     if (event.target.name === "convertType") {
       setToConvert(prev => ({ ...prev, type: event.target.value }));
       return;
     }
+
     setForm(prev => ({ ...prev, [event.target.name as keyof IBaseCurrency]: event.target.value }));
-    dispatch(formGetValutes(event.target.value));
+    dispatch(formGetCurrencies(event.target.value));
   };
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
-    setForm(prev => ({ ...prev, value: +event.target.value }));
+    if (!(+event.target.value < 0))
+      setForm(prev => ({ ...prev, value: +event.target.value }));
   };
 
   const handleButtonClick = (event: React.MouseEvent<HTMLButtonElement>): void => {
     event.preventDefault();
-    // @ts-ignore
-    const result: number | undefined = exactCurrency * form.value;
+
+    const result: number = +(exactCurrency * form.value).toFixed(4);
     setToConvert(prev => ({ ...prev, value: result }));
   };
 
-  const handleSwitchClick = (event: React.MouseEvent<HTMLButtonElement>): void => {
-    event.preventDefault();
+  const handleSwapClick = (): void => {
     const formCurrency = { ...form };
+
     setForm(({ ...toConvert }));
-    dispatch(formGetValutes(toConvert.type));
+    dispatch(formGetCurrencies(toConvert.type));
     setToConvert({ ...formCurrency });
   };
 
@@ -76,11 +78,10 @@ export function Form<T>({ options, onRender }: IFormProps<T>) {
   }, [baseCurrency]);
 
   return (
-    <form
-      className={style.form}
-    >
+    <form className={style.form}>
       <div className={style.form__wrap}>
         <div className={style.form__item}>
+          <h3 className={style.form__title}>У меня есть</h3>
           <FormControl sx={{ minWidth: 120 }}>
             <Select
               name="type"
@@ -93,20 +94,32 @@ export function Form<T>({ options, onRender }: IFormProps<T>) {
           <div className={style.form__input}>
             <TextField
               fullWidth
-              id="outlined-basic"
               type="number"
               value={form.value}
               variant="outlined"
-              placeholder="Введите валюту"
               onChange={handleInputChange}
             />
             <div className={style.form__currency}>{form.type}</div>
           </div>
+          {
+            !!toConvert.type &&
+            <div style={{ fontWeight: "normal", fontSize: "14px" }}>
+              {`1 ${form.type} = ${exactCurrency.toFixed(4)} ${toConvert.type}`}
+            </div>
+          }
         </div>
-        <Button onClick={handleSwitchClick}>
+
+        <div className={style.form__swap}>
+          <Button
+            className={style.form__swap_btn}
+            onClick={handleSwapClick}
+          >
           <SwapHoriz />
         </Button>
+        </div>
+
         <div className={style.form__item}>
+          <h3 className={style.form__title}>Я получу</h3>
           <FormControl sx={{ minWidth: 120 }}>
             <Select
               name="convertType"
@@ -118,10 +131,16 @@ export function Form<T>({ options, onRender }: IFormProps<T>) {
           </FormControl>
           <div className={style.form__input}>
             <div className={style.form__output}>
-              {toConvert.value?.toFixed(4)}
+              {toConvert.value}
             </div>
             <div className={style.form__currency}>{toConvert.type}</div>
           </div>
+          {
+            !!toConvert.type &&
+            <div style={{ fontWeight: "normal", fontSize: "14px" }}>
+              {`1 ${toConvert.type} = ${(1 / exactCurrency).toFixed(4)} ${form.type}`}
+            </div>
+          }
         </div>
       </div>
       <Button

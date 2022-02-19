@@ -1,14 +1,32 @@
+export interface IQuery {
+  apikey: string;
+  base_currency: string;
+  timestamp: number;
+}
+
+export interface IResponce {
+  query: IQuery;
+  data: ICurrencies;
+}
+
 export interface IFormAction {
-  onload: string;
-  loaded: string;
-  failed: string;
-  change: string;
-  calculate: string;
+  [key: string]: string
+}
+
+export interface IFormLoadedPA {
+  payload: {
+    data: ICurrencies,
+    query: IQuery
+  };
+}
+
+export interface IFormLoaded {
+  (data: IQuery, query: ICurrencies): IFormLoadedPA;
 }
 
 export interface IBaseCurrency {
-  type: string | undefined,
-  value: number | undefined
+  type: string;
+  value: number;
 }
 
 export interface ICurrencies {

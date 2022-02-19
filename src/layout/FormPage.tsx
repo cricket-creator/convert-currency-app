@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { MenuItem } from "@mui/material";
-import { formGetValutes } from "../store/form/action";
+import { formGetCurrencies } from "../store/form/action";
 import { Form } from "../components/form";
 import { IFormReducer } from "../utils/interfaces";
 import { selectCurrenciesList } from "../store/form/selectors";
@@ -15,7 +15,7 @@ export function FormPage() {
   }, []);
 
   useEffect(() => {
-    dispatch(formGetValutes("RUB"));
+    dispatch(formGetCurrencies("RUB"));
   }, [dispatch]);
 
   return (

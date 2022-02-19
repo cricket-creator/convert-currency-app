@@ -1,30 +1,20 @@
+import { Dispatch } from "redux";
 import { createAction } from "@reduxjs/toolkit";
 import { formAction } from "./action-type";
 import { urls } from "../../utils/urls";
-import { ICurrencies } from "../../utils/interfaces";
-import { BaseCurrencies } from "../../utils/Currencies";
-
-interface IFormLoadedPA {
-  payload: {
-    data: any,
-    query: any
-  };
-}
-
-interface IFormLoaded {
-  (data: any, query: any): IFormLoadedPA;
-}
+import { ICurrencies, IQuery, IResponce, IFormLoaded } from "../../utils/interfaces";
+import { BaseCurrencies } from "../../utils/enums";
 
 export const formOnload = createAction<void, string>(formAction.onload);
 export const formLoaded = createAction<IFormLoaded, string>(
   formAction.loaded,
-  (query: any, data: any) => ({ payload: { query, data } })
+  (query: IQuery, data: ICurrencies) => ({ payload: { query, data } })
 );
 export const formFailed = createAction<any, string>(formAction.failed);
 export const formChange = createAction<void, string>(formAction.change,);
 export const formCalculate = createAction<number, string>(formAction.calculate);
 
-export const formGetValutes = (baseCurrency: string | undefined) => async (dispatch: any) => {
+export const formGetCurrencies = (baseCurrency: string) => async (dispatch: Dispatch) => {
   dispatch(formOnload());
 
   try {
@@ -34,9 +24,9 @@ export const formGetValutes = (baseCurrency: string | undefined) => async (dispa
     const json: any = await response.json();
 
     if (!response.ok)
-      throw new Error(json.text || "Some error!");
+      throw new Error(json.message || "Some error!");
 
-    let { query, data }: { query: any, data: any } = json;
+    let { query, data }: IResponce = json;
 
     if (query.base_currency === BaseCurrencies.USD) {
       data.USD = 1.00;
@@ -52,7 +42,7 @@ export const formGetCalculations = (
   value: number,
   convertTo: string,
   currencies: ICurrencies
-) => (dispatch: any) => {
+) => (dispatch: Dispatch) => {
   let convertCurrency: number;
   let sum: number = 0;
 
@@ -62,6 +52,5 @@ export const formGetCalculations = (
       sum = convertCurrency + value;
     }
   }
-  console.log(sum);
   dispatch(formCalculate(sum));
 };
