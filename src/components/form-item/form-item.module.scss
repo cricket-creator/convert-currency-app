@@ -1,0 +1,52 @@
+@import "src/variables";
+
+.item {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: inherit;
+    border: 1px solid $borderColor;
+    border-radius: $borderRadius;
+    padding: 10px;
+    height: 200px;
+
+    &__title {
+        font-size: 20px;
+        font-weight: 600;
+    }
+
+    &__input {
+        display: flex;
+        align-items: center;
+    }
+
+    &__output {
+        display: flex;
+        align-items: center;
+        width: 100%;
+        padding: 16.5px 14px;
+        border: 1px solid $borderColor;
+        border-radius: $borderRadius;
+        height: 56px;
+        font-weight: 600;
+    }
+
+    &__currency {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 50px;
+        height: 50px;
+    }
+
+    &__compare {
+        font-weight: normal;
+        font-size: 14px;
+    }
+}
+
+@media screen and (max-width: 425px) {
+    .item {
+        width: 100%;
+    }
+}

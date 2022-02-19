@@ -1,16 +1,22 @@
+/*
+* @Response
+* */
 export interface IQuery {
   apikey: string;
   base_currency: string;
   timestamp: number;
 }
 
-export interface IResponce {
+export interface IResponse {
   query: IQuery;
   data: ICurrencies;
 }
 
+/*
+* @Form actions
+* */
 export interface IFormAction {
-  [key: string]: string
+  [key: string]: string;
 }
 
 export interface IFormLoadedPA {
@@ -24,7 +30,21 @@ export interface IFormLoaded {
   (data: IQuery, query: ICurrencies): IFormLoadedPA;
 }
 
-export interface IBaseCurrency {
+export interface IFormCalculatePA {
+  payload: {
+    baseCurrency: ICurrency,
+    convertedCurrency: ICurrency
+  };
+}
+
+export interface IFormCalculate {
+  (baseCurrency: ICurrency, convertedCurrency: ICurrency): IFormCalculatePA;
+}
+
+/*
+* @Form reducer
+* */
+export interface ICurrency {
   type: string;
   value: number;
 }
@@ -34,8 +54,8 @@ export interface ICurrencies {
 }
 
 export interface IFormReducer {
-  baseCurrency: IBaseCurrency;
-  convertedCurrency: number;
+  baseCurrency: ICurrency;
+  convertedCurrency: ICurrency;
   currencies: ICurrencies;
   error: Error | null;
 }
