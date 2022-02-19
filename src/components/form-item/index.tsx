@@ -30,7 +30,6 @@ export function FormItem<T>(props: IFormItemProps<T>) {
       </FormControl>
       <div className={style.item__input}>
         {
-          /*!!props.onInput ?*/
           <TextField
             fullWidth
             name={props.resultingForm ? "convertType" : "type"}
@@ -39,9 +38,6 @@ export function FormItem<T>(props: IFormItemProps<T>) {
             variant="outlined"
             onChange={props.onInput}
           />
-          /*<div className={style.item__output}>
-            {props.form.value}
-          </div>*/
         }
         <div className={style.item__currency}>{props.form.type}</div>
       </div>
