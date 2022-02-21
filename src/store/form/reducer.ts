@@ -5,7 +5,7 @@ import { IFormReducer } from "../../utils/interfaces";
 const initialState: IFormReducer = {
   baseCurrency: {
     type: "",
-    value: 1,
+    value: 0,
   },
   convertedCurrency: {
     type: "",
@@ -36,7 +36,7 @@ export const formReducer = createReducer<IFormReducer>(initialState, builder => 
       state.convertedCurrency = payload.convertedCurrency;
     })
     .addCase(formClear, (state, { payload }) => {
-      state.baseCurrency = { type: payload, value: 1 };
+      state.baseCurrency = { type: payload, value: 0 };
       state.convertedCurrency = { type: "", value: 0 };
     })
     .addDefaultCase(() => {

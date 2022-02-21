@@ -3,7 +3,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { SelectChangeEvent, Button } from "@mui/material";
 import { SwapHoriz } from "@mui/icons-material";
 import { FormItem } from "../form-item";
-import { selectBaseCurrency, selectCurrencies } from "../../store/form/selectors";
+import {
+  selectBaseCurrency,
+  selectConvertedCurrency,
+  selectCurrencies
+} from "../../store/form/selectors";
 import { formSwap, formCalculate, formClear, formGetCurrencies } from "../../store/form/action";
 import { ICurrency, ICurrencies, IFormReducer } from "../../utils/interfaces";
 import { CurrencyType } from "../../utils/enums";
@@ -16,10 +20,11 @@ interface IFormProps<T> {
 
 export function Form<T>({ options, onRender }: IFormProps<T>) {
   const baseCurrency = useSelector<IFormReducer, ICurrency>(selectBaseCurrency);
+  const convertedCurrency = useSelector<IFormReducer, ICurrency>(selectConvertedCurrency);
   const currencies = useSelector<IFormReducer, ICurrencies>(selectCurrencies);
   const dispatch = useDispatch();
   const [form, setForm] = useState<ICurrency>({
-    type: "", value: 1
+    type: "", value: 0
   });
   const [toConvert, setToConvert] = useState<ICurrency>({
     type: "", value: 0
@@ -72,8 +77,12 @@ export function Form<T>({ options, onRender }: IFormProps<T>) {
   };
 
   useEffect(() => {
-    setForm(prev => ({ ...prev, ...baseCurrency }));
-  }, [baseCurrency]);
+    if (baseCurrency.type)
+      setForm(prev => ({ ...prev, ...baseCurrency }));
+
+    if (convertedCurrency.type)
+      setToConvert(prev => ({ ...prev, ...convertedCurrency }));
+  }, [baseCurrency, convertedCurrency]);
 
   return (
     <form className={style.form}>
@@ -85,7 +94,6 @@ export function Form<T>({ options, onRender }: IFormProps<T>) {
           onInput={handleInputChange}
           exactCurrency={exactCurrency}
           convertType={toConvert.type}
-          resultingForm={false}
           options={options}
           onRender={onRender}
         />

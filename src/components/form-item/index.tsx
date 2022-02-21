@@ -10,7 +10,7 @@ interface IFormItemProps<T> {
   onInput?: (event: React.ChangeEvent<HTMLInputElement>) => void;
   exactCurrency: number;
   convertType: string;
-  resultingForm: boolean;
+  resultingForm?: boolean;
   options: T[];
   onRender: (item: T, idx: number) => React.ReactNode;
 }
@@ -43,10 +43,7 @@ export function FormItem<T>(props: IFormItemProps<T>) {
         !!(props.convertType && props.form.type) &&
         <div className={style.item__compare}>
           {
-            props.resultingForm ?
-              `1 ${props.form.type} = ${props.exactCurrency.toFixed(4)} ${props.convertType}`
-              :
-              `1 ${props.form.type} = ${(1 / props.exactCurrency).toFixed(4)} ${props.form.type}`
+            `1 ${props.form.type} = ${props.resultingForm ? props.exactCurrency.toFixed(4) : (1 / props.exactCurrency).toFixed(4)} ${props.convertType}`
           }
         </div>
       }

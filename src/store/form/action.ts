@@ -42,7 +42,7 @@ export const formGetCurrencies = (baseCurrency: string) => async (dispatch: Disp
     if (query.base_currency === BaseCurrencies.USD) {
       data.USD = 1.00;
     }
-    console.log(json);
+
     dispatch(formLoaded(query, data));
   } catch (e: any) {
     dispatch(formFailed(e));
