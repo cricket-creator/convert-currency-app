@@ -23,3 +23,7 @@ export const selectError = (state: IFormReducer): Error | null => state.error;
 export const selectExactCurrencyValue = (type: string) => (state: IFormReducer): number => {
   return state.currencies[type as keyof ICurrencies];
 };
+/*
+* @Selecting persist values
+* */
+export const selectIsRehydrated = (state: IFormReducer): boolean | undefined => state._persist?.rehydrated;

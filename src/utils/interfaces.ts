@@ -53,9 +53,14 @@ export interface ICurrencies {
   [key: string]: number;
 }
 
+interface IPersist {
+  rehydrated: boolean;
+}
+
 export interface IFormReducer {
   baseCurrency: ICurrency;
   convertedCurrency: ICurrency;
   currencies: ICurrencies;
   error: Error | null;
+  _persist?: IPersist;
 }
