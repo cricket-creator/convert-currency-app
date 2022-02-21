@@ -6,6 +6,7 @@ import { Form } from "../components/form";
 import { IFormReducer } from "../utils/interfaces";
 import { selectBaseCurrencyType, selectCurrenciesList } from "../store/form/selectors";
 
+
 export function FormPage() {
   const currenciesList = useSelector<IFormReducer, string[]>(selectCurrenciesList);
   const baseCurrencyType = useSelector<IFormReducer, string>(selectBaseCurrencyType);

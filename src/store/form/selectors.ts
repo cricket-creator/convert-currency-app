@@ -1,17 +1,17 @@
 import { ICurrency, ICurrencies, IFormReducer } from "../../utils/interfaces";
 /*
-* @Select Currencies
+* @Select currencies
 * */
 export const selectCurrencies = (state: IFormReducer): ICurrencies => state.currencies;
 export const selectCurrenciesList = (state: IFormReducer): string[] => Object.keys(state.currencies);
 /*
-* @Selecting BaseCurrency values
+* @Selecting base currency values
 * */
 export const selectBaseCurrency = (state: IFormReducer): ICurrency => state.baseCurrency;
 export const selectBaseCurrencyType = (state: IFormReducer): string => state.baseCurrency.type;
-export const selectBaseCurrencyValue = (state: IFormReducer): number | string => state.baseCurrency.value;
+export const selectBaseCurrencyValue = (state: IFormReducer): number => state.baseCurrency.value;
 /*
-* @Selecting ConvertedCurrency values
+* @Selecting converted currency values
 * */
 export const selectConvertedCurrency = (state: IFormReducer): ICurrency => state.convertedCurrency;
 export const selectConvertedCurrencyType = (state: IFormReducer): string => state.convertedCurrency.type;
