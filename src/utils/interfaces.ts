@@ -2,9 +2,7 @@
 * @Response
 * */
 export interface IQuery {
-  apikey: string;
   base_currency: string;
-  timestamp: number;
 }
 
 export interface IResponse {
@@ -53,14 +51,9 @@ export interface ICurrencies {
   [key: string]: number;
 }
 
-interface IPersist {
-  rehydrated: boolean;
-}
-
 export interface IFormReducer {
   baseCurrency: ICurrency;
   convertedCurrency: ICurrency;
   currencies: ICurrencies;
   error: Error | null;
-  _persist?: IPersist;
 }

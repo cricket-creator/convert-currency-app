@@ -1,6 +1,6 @@
 import { ICurrency, ICurrencies, IFormReducer } from "../../utils/interfaces";
 /*
-* @Select currencies
+* @Selecting currencies
 * */
 export const selectCurrencies = (state: IFormReducer): ICurrencies => state.currencies;
 export const selectCurrenciesList = (state: IFormReducer): string[] => Object.keys(state.currencies);
@@ -23,7 +23,3 @@ export const selectError = (state: IFormReducer): Error | null => state.error;
 export const selectExactCurrencyValue = (type: string) => (state: IFormReducer): number => {
   return state.currencies[type as keyof ICurrencies];
 };
-/*
-* @Selecting persist values
-* */
-export const selectIsRehydrated = (state: IFormReducer): boolean | undefined => state._persist?.rehydrated;

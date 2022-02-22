@@ -40,7 +40,7 @@ export function FormItem<T>(props: IFormItemProps<T>) {
         <div className={style.item__currency}>{props.form.type}</div>
       </div>
       {
-        !!(props.convertType && props.form.type) &&
+        (props.convertType && props.form.type) &&
         <div className={style.item__compare}>
           {
             `1 ${props.form.type} = ${props.resultingForm ? props.exactCurrency.toFixed(4) : (1 / props.exactCurrency).toFixed(4)} ${props.convertType}`
