@@ -22,7 +22,7 @@ export function FormItem<T>(props: IFormItemProps<T>) {
       <FormControl sx={{ minWidth: 120 }}>
         <Select
           name={props.resultingForm ? "convertType" : "type"}
-          value={props.form.type}
+          value={props.form.code}
           onChange={props.onSelect}
         >
           {props.options.map(props.onRender)}
@@ -37,13 +37,13 @@ export function FormItem<T>(props: IFormItemProps<T>) {
           variant="outlined"
           onChange={props.onInput}
         />
-        <div className={style.item__currency}>{props.form.type}</div>
+        <div className={style.item__currency}>{props.form.code}</div>
       </div>
       {
-        (props.convertType && props.form.type) &&
+        (props.convertType && props.form.code) &&
         <div className={style.item__compare}>
           {
-            `1 ${props.form.type} = ${!props.resultingForm ? props.exactCurrency.toFixed(4) : (1 / props.exactCurrency).toFixed(4)} ${props.convertType}`
+            `1 ${props.form.code} = ${!props.resultingForm ? props.exactCurrency.toFixed(4) : (1 / props.exactCurrency).toFixed(4)} ${props.convertType}`
           }
         </div>
       }

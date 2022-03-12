@@ -6,7 +6,6 @@ export interface IQuery {
 }
 
 export interface IResponse {
-  query: IQuery;
   data: ICurrencies;
 }
 
@@ -20,12 +19,12 @@ export interface IFormAction {
 export interface IFormLoadedPA {
   payload: {
     data: ICurrencies,
-    query: IQuery
+    code: string
   };
 }
 
 export interface IFormLoaded {
-  (data: IQuery, query: ICurrencies): IFormLoadedPA;
+  (code: string, data: ICurrencies): IFormLoadedPA;
 }
 
 export interface IFormCalculatePA {
@@ -43,12 +42,12 @@ export interface IFormCalculate {
 * @Form reducer
 * */
 export interface ICurrency {
-  type: string;
+  code: string;
   value: number;
 }
 
 export interface ICurrencies {
-  [key: string]: number;
+  [key: string]: ICurrency;
 }
 
 export interface IFormReducer {

@@ -24,26 +24,26 @@ export function Form<T>({ options, onRender }: IFormProps<T>) {
   const currencies = useSelector<IFormReducer, ICurrencies>(selectCurrencies);
   const dispatch = useDispatch();
   const [form, setForm] = useState<ICurrency>({
-    type: "", value: 0
+    code: "", value: 0
   });
   const [toConvert, setToConvert] = useState<ICurrency>({
-    type: "", value: 0
+    code: "", value: 0
   });
 
   const exactCurrency = useMemo((): number => {
     let currencyValue: number = 0;
 
     for (const key in currencies) {
-      if (key === toConvert.type) {
-        currencyValue = +currencies[key];
+      if (key === toConvert.code) {
+        currencyValue = +currencies[key].value;
       }
     }
     return currencyValue;
-  }, [currencies, toConvert.type]);
+  }, [currencies, toConvert.code]);
 
   const handleSelectChange = useCallback((event: SelectChangeEvent): void => {
     if (event.target.name === CurrencyType.convert) {
-      setToConvert(prev => ({ ...prev, type: event.target.value }));
+      setToConvert(prev => ({ ...prev, code: event.target.value }));
     } else {
       setForm(prev => ({ ...prev, [event.target.name as keyof ICurrency]: event.target.value }));
       dispatch(formGetCurrencies(event.target.value));
@@ -67,20 +67,20 @@ export function Form<T>({ options, onRender }: IFormProps<T>) {
     const formCurrency = { ...form };
     setForm(({ ...toConvert }));
     dispatch(formSwap(formCurrency, toConvert));
-    dispatch(formGetCurrencies(toConvert.type));
+    dispatch(formGetCurrencies(toConvert.code));
     setToConvert({ ...formCurrency });
   };
 
   const handleFormClear = () => {
-    dispatch(formClear(form.type));
-    setToConvert({ type: "", value: 0 });
+    dispatch(formClear(form.code));
+    setToConvert({ code: "", value: 0 });
   };
 
   useEffect(() => {
-    if (baseCurrency.type)
+    if (baseCurrency.code)
       setForm(prev => ({ ...prev, ...baseCurrency }));
 
-    if (convertedCurrency.type)
+    if (convertedCurrency.code)
       setToConvert(prev => ({ ...prev, ...convertedCurrency }));
   }, [baseCurrency, convertedCurrency]);
 
@@ -93,7 +93,7 @@ export function Form<T>({ options, onRender }: IFormProps<T>) {
           onSelect={handleSelectChange}
           onInput={handleInputChange}
           exactCurrency={exactCurrency}
-          convertType={toConvert.type}
+          convertType={toConvert.code}
           options={options}
           onRender={onRender}
         />
@@ -102,7 +102,7 @@ export function Form<T>({ options, onRender }: IFormProps<T>) {
           <Button
             className={style.form__swap_btn}
             onClick={handleSwapClick}
-            disabled={!toConvert.type}
+            disabled={!toConvert.code}
           >
             <SwapHoriz />
           </Button>
@@ -114,7 +114,7 @@ export function Form<T>({ options, onRender }: IFormProps<T>) {
           onSelect={handleSelectChange}
           onInput={handleInputChange}
           exactCurrency={exactCurrency}
-          convertType={form.type}
+          convertType={form.code}
           resultingForm={true}
           options={options}
           onRender={onRender}
@@ -125,7 +125,7 @@ export function Form<T>({ options, onRender }: IFormProps<T>) {
         type="submit"
         className={style.form__btn}
         onClick={handleButtonClick}
-        disabled={!toConvert.type}
+        disabled={!toConvert.code}
       >
         Конвертировать
       </Button>
